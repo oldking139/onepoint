@@ -175,7 +175,7 @@
             autoMini: true,
             rotate: true,
             hotkey: true,
-            pip: false,
+            pip: true,
             whitelist: ['*'],
             plugins: [
                 artplayerPluginDanmuku({

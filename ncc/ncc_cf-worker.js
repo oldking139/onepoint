@@ -2,27 +2,27 @@ globalThis.__dirname="";
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 417:
+/***/ 667:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 function __ncc_wildcard$0 (arg) {
-  if (arg === "alidrive") return __nccwpck_require__(593);
-  else if (arg === "coding") return __nccwpck_require__(642);
-  else if (arg === "googledrive") return __nccwpck_require__(844);
-  else if (arg === "node_fs") return __nccwpck_require__(679);
-  else if (arg === "onedrive") return __nccwpck_require__(8);
-  else if (arg === "phony") return __nccwpck_require__(155);
-  else if (arg === "teambition") return __nccwpck_require__(824);
+  if (arg === "alidrive") return __nccwpck_require__(893);
+  else if (arg === "coding") return __nccwpck_require__(795);
+  else if (arg === "googledrive") return __nccwpck_require__(583);
+  else if (arg === "node_fs") return __nccwpck_require__(53);
+  else if (arg === "onedrive") return __nccwpck_require__(714);
+  else if (arg === "phony") return __nccwpck_require__(582);
+  else if (arg === "teambition") return __nccwpck_require__(822);
 }
 function __ncc_wildcard$1 (arg) {
-  if (arg === "simple.art") return __nccwpck_require__(533);
-  else if (arg === "w.w.art") return __nccwpck_require__(529);
-  else if (arg === "w.w") return __nccwpck_require__(463);
+  if (arg === "simple.art") return __nccwpck_require__(136);
+  else if (arg === "w.w.art") return __nccwpck_require__(255);
+  else if (arg === "w.w") return __nccwpck_require__(155);
 }
-const op = __nccwpck_require__(525);
-const app = __nccwpck_require__(750);
+const op = __nccwpck_require__(146);
+const app = __nccwpck_require__(329);
 
-const { MODULES, THEMES } = __nccwpck_require__(791);
+const { MODULES, THEMES } = __nccwpck_require__(936);
 
 const { modules, themes } = op;
 
@@ -34,19 +34,19 @@ THEMES.forEach((k) => {
     themes[k] = __ncc_wildcard$1(k);
 });
 
-const header = __nccwpck_require__(37);
-const template = __nccwpck_require__(203);
-const admin = __nccwpck_require__(970);
-const invokeModule = __nccwpck_require__(228);
-const logger = __nccwpck_require__(885);
+const header = __nccwpck_require__(543);
+const template = __nccwpck_require__(755);
+const admin = __nccwpck_require__(783);
+const invokeModule = __nccwpck_require__(639);
+const logger = __nccwpck_require__(309);
 
 // fake koa app
 app.use(header);
 app.use(template);
 app.use(admin);
-app.use(__nccwpck_require__(554));
-app.use(__nccwpck_require__(873));
-app.use(__nccwpck_require__(158));
+app.use(__nccwpck_require__(452));
+app.use(__nccwpck_require__(726));
+app.use(__nccwpck_require__(645));
 app.use(invokeModule);
 
 module.exports = {
@@ -84,12 +84,12 @@ module.exports = {
 
 /***/ }),
 
-/***/ 791:
+/***/ 936:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 // 系统配置参数,运行时只读
 const config = {
-    PORT: 8020,
+    PORT: process.env.PORT || 8020,
     NODE_ENV: 'production',
 
     SIGN_DELIMITER: '.',
@@ -106,6 +106,7 @@ const config = {
     PATH_ADMIN: '/admin/',
     PATH_API: '/api/',
     PATH_DOWN: '/down:',
+    PATH_SHARE: '/s/',
 
     THEMES: ['w.w.art', 'simple.art'],
     MODULES: ['node_fs', 'onedrive', 'coding', 'teambition', 'googledrive', 'alidrive', 'phony'],
@@ -128,10 +129,11 @@ const configTemplate = {
     cors: ['*'],
     proxy: [],
     theme: config.THEMES[0],
+    share_aeskey: 'password_len==16',
 };
 config.configTemplate = configTemplate;
 
-const { _P } = __nccwpck_require__(166);
+const { _P } = __nccwpck_require__(792);
 
 const commonSParams = [
     _P('theme', '', '', 8, config.THEMES, false, false),
@@ -141,6 +143,7 @@ const commonSParams = [
     _P('readme', '', '', 6, 'markdown supported', true, false),
     _P('proxy', [], 'proxy for download', 4, '', false, false),
     _P('cors', [], 'Allow CORS', 4, '', false, false),
+    _P('share_aeskey', 'password_len==16', 'share link encryption key', 4, '', true, false),
 ];
 commonSParams.forEach((e) => {
     e.value = configTemplate[e.name];
@@ -170,10 +173,10 @@ module.exports = config;
 
 /***/ }),
 
-/***/ 750:
+/***/ 329:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const { RTError, cookie2Str, query2Obj } = __nccwpck_require__(166);
+const { RTError, cookie2Str, query2Obj } = __nccwpck_require__(792);
 
 class AppRequest {
     constructor({ method, path, headers, body, query, cookies, baseURL, ip }) {
@@ -352,12 +355,12 @@ module.exports = {
 
 /***/ }),
 
-/***/ 525:
+/***/ 146:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const sysConfig = __nccwpck_require__(791);
-const logger = __nccwpck_require__(885);
-const { _sha1, NumberUtil, RTError, beautifyObject } = __nccwpck_require__(166);
+const sysConfig = __nccwpck_require__(936);
+const logger = __nccwpck_require__(309);
+const { _sha1, NumberUtil, RTError, beautifyObject } = __nccwpck_require__(792);
 const packageInfo = __nccwpck_require__(306);
 module.exports = {
     modules: {},
@@ -515,12 +518,12 @@ module.exports = {
 
 /***/ }),
 
-/***/ 554:
+/***/ 452:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const logger = __nccwpck_require__(885);
-const op = __nccwpck_require__(525);
-const { AC_PASS_FILE } = __nccwpck_require__(791);
+const logger = __nccwpck_require__(309);
+const op = __nccwpck_require__(146);
+const { AC_PASS_FILE } = __nccwpck_require__(936);
 
 /**
  * @errors [Unauthorized,ItemNotExist]
@@ -609,17 +612,18 @@ function checkPass(ctx, name, pass, path) {
 
 /***/ }),
 
-/***/ 970:
+/***/ 783:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const logger = __nccwpck_require__(885);
-const sysConfig = __nccwpck_require__(791);
-const op = __nccwpck_require__(525);
-const SimpleRouter = __nccwpck_require__(979);
-const { P } = __nccwpck_require__(166);
-const { beautifyObject } = __nccwpck_require__(166);
+const logger = __nccwpck_require__(309);
+const sysConfig = __nccwpck_require__(936);
+const op = __nccwpck_require__(146);
+const SimpleRouter = __nccwpck_require__(678);
+const { P } = __nccwpck_require__(792);
+const { beautifyObject } = __nccwpck_require__(792);
+const CryptoJS = __nccwpck_require__(616);
 
-const { PATH_API, PATH_ADMIN, PATH_DOWN } = sysConfig;
+const { PATH_API, PATH_ADMIN, PATH_DOWN, PATH_SHARE, SHARE_ENCRYPT_AESKEY } = sysConfig;
 
 const api_router = new SimpleRouter();
 api_router.setDefault((ctx) => {
@@ -854,6 +858,45 @@ router.prefix(PATH_DOWN, async (ctx, next, path) => {
     op.parsePathBeforeInvoke(ctx, path);
     await next();
 });
+router.prefix(PATH_SHARE, async (ctx, next, path) => {
+    decodeEncPart = (encBase64, key) => {
+        // console.log(encBase64);
+        const encRaw = CryptoJS.enc.Base64.parse(encBase64.replace(/_/g, '/').replace(/-/g, '+'));
+        // console.log(encRaw.toString());
+        const iv = CryptoJS.enc.Hex.parse(encRaw.toString().slice(0, 32)); // first 16 bytes
+        // console.log(iv.toString());
+        const encData = CryptoJS.enc.Hex.parse(encRaw.toString().slice(32)); // remaining
+        // console.log(encData.toString());
+        //const iv =  CryptoJS.enc.Hex.parse('00000000000000000000000000000000');
+        const rawkey =  CryptoJS.enc.Utf8.parse(key);
+        // console.log(encData.toString());
+        const aesDecryptor = CryptoJS.algo.AES.createDecryptor(rawkey, { iv: iv }); // aes-128-cbc
+        let decData = aesDecryptor.finalize(encData);
+        let decString = CryptoJS.enc.Utf8.stringify(decData);
+        return decString;
+    }    
+    let path_parts = path.split('/');
+    encryptedBase64 = path_parts.pop();
+    param = decodeEncPart(encryptedBase64, op.config.site.share_aeskey);
+    console.log("Decoded encrypted part: " + param);
+    param = JSON.parse(param);
+    if (param.gen === undefined || param.exp === undefined || param.path === undefined) {
+        ctx.throw(400, 'Invalid Encrypted Param');
+    }
+    if (Date.now() / 1000 > param.gen + param.exp) {
+        ctx.throw(401, 'Share Link Expired');
+    }
+    
+    path_parts.push(param.path);
+    new_path = '/' + path_parts.join('/');
+    console.log("newpath: " + new_path);
+    ctx.state.level = 1;
+    
+    ctx.state.html = true;
+    ctx.$data = { command: 'ls' };
+    op.parsePathBeforeInvoke(ctx, new_path);
+    await next();
+});
 router.setDefault(async (ctx, next) => {
     ctx.state.html = ctx.request.headers.accept !== 'application/json';
     ctx.state.useCache = ctx.request.query.refresh === undefined;
@@ -881,12 +924,12 @@ module.exports = async (ctx, next) => {
 
 /***/ }),
 
-/***/ 158:
+/***/ 645:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const logger = __nccwpck_require__(885);
-const { RTError } = __nccwpck_require__(166);
-const { CACHE_TIME_FILE, CACHE_TIME_LIST } = __nccwpck_require__(791);
+const logger = __nccwpck_require__(309);
+const { RTError } = __nccwpck_require__(792);
+const { CACHE_TIME_FILE, CACHE_TIME_LIST } = __nccwpck_require__(936);
 module.exports = async (ctx, next) => {
     const path = ctx.state.p1 + ctx.state.p2;
     // use cache
@@ -1016,11 +1059,11 @@ const oneCache = new OneCache();
 
 /***/ }),
 
-/***/ 37:
+/***/ 543:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const logger = __nccwpck_require__(885);
-const op = __nccwpck_require__(525);
+const logger = __nccwpck_require__(309);
+const op = __nccwpck_require__(146);
 
 module.exports = async (ctx, next) => {
     const { method, path, query, headers, ip } = ctx.request;
@@ -1069,13 +1112,13 @@ function checkCors(origin, cors) {
 
 /***/ }),
 
-/***/ 228:
+/***/ 639:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const logger = __nccwpck_require__(885);
-const op = __nccwpck_require__(525);
-const { ID_SIGN_LEN } = __nccwpck_require__(791);
-const { mime } = __nccwpck_require__(166);
+const logger = __nccwpck_require__(309);
+const op = __nccwpck_require__(146);
+const { ID_SIGN_LEN } = __nccwpck_require__(936);
+const { mime } = __nccwpck_require__(792);
 
 function signId(p2, id) {
     // 1-10年有效期, 纯粹是为了让生成的签名不那么一样
@@ -1171,12 +1214,12 @@ module.exports = async (ctx) => {
 
 /***/ }),
 
-/***/ 873:
+/***/ 726:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const logger = __nccwpck_require__(885);
-const op = __nccwpck_require__(525);
-const { PAGE_SIGN_LEN } = __nccwpck_require__(791);
+const logger = __nccwpck_require__(309);
+const op = __nccwpck_require__(146);
+const { PAGE_SIGN_LEN } = __nccwpck_require__(936);
 
 function signPage(p2, page) {
     return page + op.sign(p2 + page, Math.floor(Math.random() * 78840) + 8760, PAGE_SIGN_LEN);
@@ -1213,13 +1256,13 @@ module.exports = async (ctx, next) => {
 
 /***/ }),
 
-/***/ 203:
+/***/ 755:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const logger = __nccwpck_require__(885);
-const op = __nccwpck_require__(525);
-const V = __nccwpck_require__(894);
-const { RTError } = __nccwpck_require__(166);
+const logger = __nccwpck_require__(309);
+const op = __nccwpck_require__(146);
+const V = __nccwpck_require__(545);
+const { RTError } = __nccwpck_require__(792);
 
 module.exports = async (ctx, next) => {
     await next().catch((err) => {
@@ -1265,16 +1308,16 @@ module.exports = async (ctx, next) => {
 
 /***/ }),
 
-/***/ 593:
+/***/ 893:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const { request, IDHelper, _P } = __nccwpck_require__(166);
-const logger = __nccwpck_require__(885);
-const { RTError } = __nccwpck_require__(166);
+const { request, IDHelper, _P } = __nccwpck_require__(792);
+const logger = __nccwpck_require__(309);
+const { RTError } = __nccwpck_require__(792);
 
 // 支持分页、id寻址
 
-const { PAGE_SIZE } = __nccwpck_require__(791);
+const { PAGE_SIZE } = __nccwpck_require__(936);
 
 function filter(e) {
     const r = {
@@ -1399,12 +1442,12 @@ module.exports = {
 
 /***/ }),
 
-/***/ 642:
+/***/ 795:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const { request, RTError, IDHelper, _P } = __nccwpck_require__(166);
+const { request, RTError, IDHelper, _P } = __nccwpck_require__(792);
 
-const { PAGE_SIZE } = __nccwpck_require__(791);
+const { PAGE_SIZE } = __nccwpck_require__(936);
 const ID_DELIMITER = 'l';
 
 function filter(e) {
@@ -1655,15 +1698,15 @@ module.exports = {
 
 /***/ }),
 
-/***/ 844:
+/***/ 583:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const { request, RTError, IDHelper, _P } = __nccwpck_require__(166);
-const logger = __nccwpck_require__(885);
+const { request, RTError, IDHelper, _P } = __nccwpck_require__(792);
+const logger = __nccwpck_require__(309);
 
 // 支持分页、id寻址、中转下载
 
-const { PAGE_SIZE } = __nccwpck_require__(791);
+const { PAGE_SIZE } = __nccwpck_require__(936);
 
 function filter(e) {
     // 处理shortcut
@@ -1829,14 +1872,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ 679:
+/***/ 53:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const logger = __nccwpck_require__(885);
+const logger = __nccwpck_require__(309);
 const fs = __nccwpck_require__(747);
-const { _P, path: _path } = __nccwpck_require__(166);
+const { _P, path: _path } = __nccwpck_require__(792);
 
-const { PAGE_SIZE: PAGE } = __nccwpck_require__(791);
+const { PAGE_SIZE: PAGE } = __nccwpck_require__(936);
 
 module.exports = {
     params() {
@@ -1918,15 +1961,15 @@ module.exports = {
 
 /***/ }),
 
-/***/ 8:
+/***/ 714:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const { request, RTError } = __nccwpck_require__(166);
-const logger = __nccwpck_require__(885);
-const { _P, deleteAttributes } = __nccwpck_require__(166);
-const op = __nccwpck_require__(525);
+const { request, RTError } = __nccwpck_require__(792);
+const logger = __nccwpck_require__(309);
+const { _P, deleteAttributes } = __nccwpck_require__(792);
+const op = __nccwpck_require__(146);
 
-const { PAGE_SIZE } = __nccwpck_require__(791);
+const { PAGE_SIZE } = __nccwpck_require__(936);
 
 function filter(e) {
     const res = {
@@ -2296,10 +2339,10 @@ class SharePoint {
 
 /***/ }),
 
-/***/ 155:
+/***/ 582:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const { _P } = __nccwpck_require__(166);
+const { _P } = __nccwpck_require__(792);
 module.exports = {
     get params() {
         return [_P('nothing', '', '文件挂载专用，可用于补充挂载文件，请不要填写此选项', 7, '', false, false)];
@@ -2316,11 +2359,11 @@ module.exports = {
 
 /***/ }),
 
-/***/ 824:
+/***/ 822:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const { request, RTError, IDHelper, _P } = __nccwpck_require__(166);
-const { PAGE_SIZE } = __nccwpck_require__(791);
+const { request, RTError, IDHelper, _P } = __nccwpck_require__(792);
+const { PAGE_SIZE } = __nccwpck_require__(936);
 
 function folderFilter(e) {
     return {
@@ -2482,7 +2525,50 @@ module.exports = {
 
 /***/ }),
 
-/***/ 249:
+/***/ 616:
+/***/ ((module) => {
+
+/*
+CryptoJS v3.1.2
+code.google.com/p/crypto-js
+(c) 2009-2013 by Jeff Mott. All rights reserved.
+code.google.com/p/crypto-js/wiki/License
+*/
+var CryptoJS=CryptoJS||function(u,p){var d={},l=d.lib={},s=function(){},t=l.Base={extend:function(a){s.prototype=this;var c=new s;a&&c.mixIn(a);c.hasOwnProperty("init")||(c.init=function(){c.$super.init.apply(this,arguments)});c.init.prototype=c;c.$super=this;return c},create:function(){var a=this.extend();a.init.apply(a,arguments);return a},init:function(){},mixIn:function(a){for(var c in a)a.hasOwnProperty(c)&&(this[c]=a[c]);a.hasOwnProperty("toString")&&(this.toString=a.toString)},clone:function(){return this.init.prototype.extend(this)}},
+r=l.WordArray=t.extend({init:function(a,c){a=this.words=a||[];this.sigBytes=c!=p?c:4*a.length},toString:function(a){return(a||v).stringify(this)},concat:function(a){var c=this.words,e=a.words,j=this.sigBytes;a=a.sigBytes;this.clamp();if(j%4)for(var k=0;k<a;k++)c[j+k>>>2]|=(e[k>>>2]>>>24-8*(k%4)&255)<<24-8*((j+k)%4);else if(65535<e.length)for(k=0;k<a;k+=4)c[j+k>>>2]=e[k>>>2];else c.push.apply(c,e);this.sigBytes+=a;return this},clamp:function(){var a=this.words,c=this.sigBytes;a[c>>>2]&=4294967295<<
+32-8*(c%4);a.length=u.ceil(c/4)},clone:function(){var a=t.clone.call(this);a.words=this.words.slice(0);return a},random:function(a){for(var c=[],e=0;e<a;e+=4)c.push(4294967296*u.random()|0);return new r.init(c,a)}}),w=d.enc={},v=w.Hex={stringify:function(a){var c=a.words;a=a.sigBytes;for(var e=[],j=0;j<a;j++){var k=c[j>>>2]>>>24-8*(j%4)&255;e.push((k>>>4).toString(16));e.push((k&15).toString(16))}return e.join("")},parse:function(a){for(var c=a.length,e=[],j=0;j<c;j+=2)e[j>>>3]|=parseInt(a.substr(j,
+2),16)<<24-4*(j%8);return new r.init(e,c/2)}},b=w.Latin1={stringify:function(a){var c=a.words;a=a.sigBytes;for(var e=[],j=0;j<a;j++)e.push(String.fromCharCode(c[j>>>2]>>>24-8*(j%4)&255));return e.join("")},parse:function(a){for(var c=a.length,e=[],j=0;j<c;j++)e[j>>>2]|=(a.charCodeAt(j)&255)<<24-8*(j%4);return new r.init(e,c)}},x=w.Utf8={stringify:function(a){try{return decodeURIComponent(escape(b.stringify(a)))}catch(c){throw Error("Malformed UTF-8 data");}},parse:function(a){return b.parse(unescape(encodeURIComponent(a)))}},
+q=l.BufferedBlockAlgorithm=t.extend({reset:function(){this._data=new r.init;this._nDataBytes=0},_append:function(a){"string"==typeof a&&(a=x.parse(a));this._data.concat(a);this._nDataBytes+=a.sigBytes},_process:function(a){var c=this._data,e=c.words,j=c.sigBytes,k=this.blockSize,b=j/(4*k),b=a?u.ceil(b):u.max((b|0)-this._minBufferSize,0);a=b*k;j=u.min(4*a,j);if(a){for(var q=0;q<a;q+=k)this._doProcessBlock(e,q);q=e.splice(0,a);c.sigBytes-=j}return new r.init(q,j)},clone:function(){var a=t.clone.call(this);
+a._data=this._data.clone();return a},_minBufferSize:0});l.Hasher=q.extend({cfg:t.extend(),init:function(a){this.cfg=this.cfg.extend(a);this.reset()},reset:function(){q.reset.call(this);this._doReset()},update:function(a){this._append(a);this._process();return this},finalize:function(a){a&&this._append(a);return this._doFinalize()},blockSize:16,_createHelper:function(a){return function(b,e){return(new a.init(e)).finalize(b)}},_createHmacHelper:function(a){return function(b,e){return(new n.HMAC.init(a,
+e)).finalize(b)}}});var n=d.algo={};return d}(Math);
+(function(){var u=CryptoJS,p=u.lib.WordArray;u.enc.Base64={stringify:function(d){var l=d.words,p=d.sigBytes,t=this._map;d.clamp();d=[];for(var r=0;r<p;r+=3)for(var w=(l[r>>>2]>>>24-8*(r%4)&255)<<16|(l[r+1>>>2]>>>24-8*((r+1)%4)&255)<<8|l[r+2>>>2]>>>24-8*((r+2)%4)&255,v=0;4>v&&r+0.75*v<p;v++)d.push(t.charAt(w>>>6*(3-v)&63));if(l=t.charAt(64))for(;d.length%4;)d.push(l);return d.join("")},parse:function(d){var l=d.length,s=this._map,t=s.charAt(64);t&&(t=d.indexOf(t),-1!=t&&(l=t));for(var t=[],r=0,w=0;w<
+l;w++)if(w%4){var v=s.indexOf(d.charAt(w-1))<<2*(w%4),b=s.indexOf(d.charAt(w))>>>6-2*(w%4);t[r>>>2]|=(v|b)<<24-8*(r%4);r++}return p.create(t,r)},_map:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="}})();
+(function(u){function p(b,n,a,c,e,j,k){b=b+(n&a|~n&c)+e+k;return(b<<j|b>>>32-j)+n}function d(b,n,a,c,e,j,k){b=b+(n&c|a&~c)+e+k;return(b<<j|b>>>32-j)+n}function l(b,n,a,c,e,j,k){b=b+(n^a^c)+e+k;return(b<<j|b>>>32-j)+n}function s(b,n,a,c,e,j,k){b=b+(a^(n|~c))+e+k;return(b<<j|b>>>32-j)+n}for(var t=CryptoJS,r=t.lib,w=r.WordArray,v=r.Hasher,r=t.algo,b=[],x=0;64>x;x++)b[x]=4294967296*u.abs(u.sin(x+1))|0;r=r.MD5=v.extend({_doReset:function(){this._hash=new w.init([1732584193,4023233417,2562383102,271733878])},
+_doProcessBlock:function(q,n){for(var a=0;16>a;a++){var c=n+a,e=q[c];q[c]=(e<<8|e>>>24)&16711935|(e<<24|e>>>8)&4278255360}var a=this._hash.words,c=q[n+0],e=q[n+1],j=q[n+2],k=q[n+3],z=q[n+4],r=q[n+5],t=q[n+6],w=q[n+7],v=q[n+8],A=q[n+9],B=q[n+10],C=q[n+11],u=q[n+12],D=q[n+13],E=q[n+14],x=q[n+15],f=a[0],m=a[1],g=a[2],h=a[3],f=p(f,m,g,h,c,7,b[0]),h=p(h,f,m,g,e,12,b[1]),g=p(g,h,f,m,j,17,b[2]),m=p(m,g,h,f,k,22,b[3]),f=p(f,m,g,h,z,7,b[4]),h=p(h,f,m,g,r,12,b[5]),g=p(g,h,f,m,t,17,b[6]),m=p(m,g,h,f,w,22,b[7]),
+f=p(f,m,g,h,v,7,b[8]),h=p(h,f,m,g,A,12,b[9]),g=p(g,h,f,m,B,17,b[10]),m=p(m,g,h,f,C,22,b[11]),f=p(f,m,g,h,u,7,b[12]),h=p(h,f,m,g,D,12,b[13]),g=p(g,h,f,m,E,17,b[14]),m=p(m,g,h,f,x,22,b[15]),f=d(f,m,g,h,e,5,b[16]),h=d(h,f,m,g,t,9,b[17]),g=d(g,h,f,m,C,14,b[18]),m=d(m,g,h,f,c,20,b[19]),f=d(f,m,g,h,r,5,b[20]),h=d(h,f,m,g,B,9,b[21]),g=d(g,h,f,m,x,14,b[22]),m=d(m,g,h,f,z,20,b[23]),f=d(f,m,g,h,A,5,b[24]),h=d(h,f,m,g,E,9,b[25]),g=d(g,h,f,m,k,14,b[26]),m=d(m,g,h,f,v,20,b[27]),f=d(f,m,g,h,D,5,b[28]),h=d(h,f,
+m,g,j,9,b[29]),g=d(g,h,f,m,w,14,b[30]),m=d(m,g,h,f,u,20,b[31]),f=l(f,m,g,h,r,4,b[32]),h=l(h,f,m,g,v,11,b[33]),g=l(g,h,f,m,C,16,b[34]),m=l(m,g,h,f,E,23,b[35]),f=l(f,m,g,h,e,4,b[36]),h=l(h,f,m,g,z,11,b[37]),g=l(g,h,f,m,w,16,b[38]),m=l(m,g,h,f,B,23,b[39]),f=l(f,m,g,h,D,4,b[40]),h=l(h,f,m,g,c,11,b[41]),g=l(g,h,f,m,k,16,b[42]),m=l(m,g,h,f,t,23,b[43]),f=l(f,m,g,h,A,4,b[44]),h=l(h,f,m,g,u,11,b[45]),g=l(g,h,f,m,x,16,b[46]),m=l(m,g,h,f,j,23,b[47]),f=s(f,m,g,h,c,6,b[48]),h=s(h,f,m,g,w,10,b[49]),g=s(g,h,f,m,
+E,15,b[50]),m=s(m,g,h,f,r,21,b[51]),f=s(f,m,g,h,u,6,b[52]),h=s(h,f,m,g,k,10,b[53]),g=s(g,h,f,m,B,15,b[54]),m=s(m,g,h,f,e,21,b[55]),f=s(f,m,g,h,v,6,b[56]),h=s(h,f,m,g,x,10,b[57]),g=s(g,h,f,m,t,15,b[58]),m=s(m,g,h,f,D,21,b[59]),f=s(f,m,g,h,z,6,b[60]),h=s(h,f,m,g,C,10,b[61]),g=s(g,h,f,m,j,15,b[62]),m=s(m,g,h,f,A,21,b[63]);a[0]=a[0]+f|0;a[1]=a[1]+m|0;a[2]=a[2]+g|0;a[3]=a[3]+h|0},_doFinalize:function(){var b=this._data,n=b.words,a=8*this._nDataBytes,c=8*b.sigBytes;n[c>>>5]|=128<<24-c%32;var e=u.floor(a/
+4294967296);n[(c+64>>>9<<4)+15]=(e<<8|e>>>24)&16711935|(e<<24|e>>>8)&4278255360;n[(c+64>>>9<<4)+14]=(a<<8|a>>>24)&16711935|(a<<24|a>>>8)&4278255360;b.sigBytes=4*(n.length+1);this._process();b=this._hash;n=b.words;for(a=0;4>a;a++)c=n[a],n[a]=(c<<8|c>>>24)&16711935|(c<<24|c>>>8)&4278255360;return b},clone:function(){var b=v.clone.call(this);b._hash=this._hash.clone();return b}});t.MD5=v._createHelper(r);t.HmacMD5=v._createHmacHelper(r)})(Math);
+(function(){var u=CryptoJS,p=u.lib,d=p.Base,l=p.WordArray,p=u.algo,s=p.EvpKDF=d.extend({cfg:d.extend({keySize:4,hasher:p.MD5,iterations:1}),init:function(d){this.cfg=this.cfg.extend(d)},compute:function(d,r){for(var p=this.cfg,s=p.hasher.create(),b=l.create(),u=b.words,q=p.keySize,p=p.iterations;u.length<q;){n&&s.update(n);var n=s.update(d).finalize(r);s.reset();for(var a=1;a<p;a++)n=s.finalize(n),s.reset();b.concat(n)}b.sigBytes=4*q;return b}});u.EvpKDF=function(d,l,p){return s.create(p).compute(d,
+l)}})();
+CryptoJS.lib.Cipher||function(u){var p=CryptoJS,d=p.lib,l=d.Base,s=d.WordArray,t=d.BufferedBlockAlgorithm,r=p.enc.Base64,w=p.algo.EvpKDF,v=d.Cipher=t.extend({cfg:l.extend(),createEncryptor:function(e,a){return this.create(this._ENC_XFORM_MODE,e,a)},createDecryptor:function(e,a){return this.create(this._DEC_XFORM_MODE,e,a)},init:function(e,a,b){this.cfg=this.cfg.extend(b);this._xformMode=e;this._key=a;this.reset()},reset:function(){t.reset.call(this);this._doReset()},process:function(e){this._append(e);return this._process()},
+finalize:function(e){e&&this._append(e);return this._doFinalize()},keySize:4,ivSize:4,_ENC_XFORM_MODE:1,_DEC_XFORM_MODE:2,_createHelper:function(e){return{encrypt:function(b,k,d){return("string"==typeof k?c:a).encrypt(e,b,k,d)},decrypt:function(b,k,d){return("string"==typeof k?c:a).decrypt(e,b,k,d)}}}});d.StreamCipher=v.extend({_doFinalize:function(){return this._process(!0)},blockSize:1});var b=p.mode={},x=function(e,a,b){var c=this._iv;c?this._iv=u:c=this._prevBlock;for(var d=0;d<b;d++)e[a+d]^=
+c[d]},q=(d.BlockCipherMode=l.extend({createEncryptor:function(e,a){return this.Encryptor.create(e,a)},createDecryptor:function(e,a){return this.Decryptor.create(e,a)},init:function(e,a){this._cipher=e;this._iv=a}})).extend();q.Encryptor=q.extend({processBlock:function(e,a){var b=this._cipher,c=b.blockSize;x.call(this,e,a,c);b.encryptBlock(e,a);this._prevBlock=e.slice(a,a+c)}});q.Decryptor=q.extend({processBlock:function(e,a){var b=this._cipher,c=b.blockSize,d=e.slice(a,a+c);b.decryptBlock(e,a);x.call(this,
+e,a,c);this._prevBlock=d}});b=b.CBC=q;q=(p.pad={}).Pkcs7={pad:function(a,b){for(var c=4*b,c=c-a.sigBytes%c,d=c<<24|c<<16|c<<8|c,l=[],n=0;n<c;n+=4)l.push(d);c=s.create(l,c);a.concat(c)},unpad:function(a){a.sigBytes-=a.words[a.sigBytes-1>>>2]&255}};d.BlockCipher=v.extend({cfg:v.cfg.extend({mode:b,padding:q}),reset:function(){v.reset.call(this);var a=this.cfg,b=a.iv,a=a.mode;if(this._xformMode==this._ENC_XFORM_MODE)var c=a.createEncryptor;else c=a.createDecryptor,this._minBufferSize=1;this._mode=c.call(a,
+this,b&&b.words)},_doProcessBlock:function(a,b){this._mode.processBlock(a,b)},_doFinalize:function(){var a=this.cfg.padding;if(this._xformMode==this._ENC_XFORM_MODE){a.pad(this._data,this.blockSize);var b=this._process(!0)}else b=this._process(!0),a.unpad(b);return b},blockSize:4});var n=d.CipherParams=l.extend({init:function(a){this.mixIn(a)},toString:function(a){return(a||this.formatter).stringify(this)}}),b=(p.format={}).OpenSSL={stringify:function(a){var b=a.ciphertext;a=a.salt;return(a?s.create([1398893684,
+1701076831]).concat(a).concat(b):b).toString(r)},parse:function(a){a=r.parse(a);var b=a.words;if(1398893684==b[0]&&1701076831==b[1]){var c=s.create(b.slice(2,4));b.splice(0,4);a.sigBytes-=16}return n.create({ciphertext:a,salt:c})}},a=d.SerializableCipher=l.extend({cfg:l.extend({format:b}),encrypt:function(a,b,c,d){d=this.cfg.extend(d);var l=a.createEncryptor(c,d);b=l.finalize(b);l=l.cfg;return n.create({ciphertext:b,key:c,iv:l.iv,algorithm:a,mode:l.mode,padding:l.padding,blockSize:a.blockSize,formatter:d.format})},
+decrypt:function(a,b,c,d){d=this.cfg.extend(d);b=this._parse(b,d.format);return a.createDecryptor(c,d).finalize(b.ciphertext)},_parse:function(a,b){return"string"==typeof a?b.parse(a,this):a}}),p=(p.kdf={}).OpenSSL={execute:function(a,b,c,d){d||(d=s.random(8));a=w.create({keySize:b+c}).compute(a,d);c=s.create(a.words.slice(b),4*c);a.sigBytes=4*b;return n.create({key:a,iv:c,salt:d})}},c=d.PasswordBasedCipher=a.extend({cfg:a.cfg.extend({kdf:p}),encrypt:function(b,c,d,l){l=this.cfg.extend(l);d=l.kdf.execute(d,
+b.keySize,b.ivSize);l.iv=d.iv;b=a.encrypt.call(this,b,c,d.key,l);b.mixIn(d);return b},decrypt:function(b,c,d,l){l=this.cfg.extend(l);c=this._parse(c,l.format);d=l.kdf.execute(d,b.keySize,b.ivSize,c.salt);l.iv=d.iv;return a.decrypt.call(this,b,c,d.key,l)}})}();
+(function(){for(var u=CryptoJS,p=u.lib.BlockCipher,d=u.algo,l=[],s=[],t=[],r=[],w=[],v=[],b=[],x=[],q=[],n=[],a=[],c=0;256>c;c++)a[c]=128>c?c<<1:c<<1^283;for(var e=0,j=0,c=0;256>c;c++){var k=j^j<<1^j<<2^j<<3^j<<4,k=k>>>8^k&255^99;l[e]=k;s[k]=e;var z=a[e],F=a[z],G=a[F],y=257*a[k]^16843008*k;t[e]=y<<24|y>>>8;r[e]=y<<16|y>>>16;w[e]=y<<8|y>>>24;v[e]=y;y=16843009*G^65537*F^257*z^16843008*e;b[k]=y<<24|y>>>8;x[k]=y<<16|y>>>16;q[k]=y<<8|y>>>24;n[k]=y;e?(e=z^a[a[a[G^z]]],j^=a[a[j]]):e=j=1}var H=[0,1,2,4,8,
+16,32,64,128,27,54],d=d.AES=p.extend({_doReset:function(){for(var a=this._key,c=a.words,d=a.sigBytes/4,a=4*((this._nRounds=d+6)+1),e=this._keySchedule=[],j=0;j<a;j++)if(j<d)e[j]=c[j];else{var k=e[j-1];j%d?6<d&&4==j%d&&(k=l[k>>>24]<<24|l[k>>>16&255]<<16|l[k>>>8&255]<<8|l[k&255]):(k=k<<8|k>>>24,k=l[k>>>24]<<24|l[k>>>16&255]<<16|l[k>>>8&255]<<8|l[k&255],k^=H[j/d|0]<<24);e[j]=e[j-d]^k}c=this._invKeySchedule=[];for(d=0;d<a;d++)j=a-d,k=d%4?e[j]:e[j-4],c[d]=4>d||4>=j?k:b[l[k>>>24]]^x[l[k>>>16&255]]^q[l[k>>>
+8&255]]^n[l[k&255]]},encryptBlock:function(a,b){this._doCryptBlock(a,b,this._keySchedule,t,r,w,v,l)},decryptBlock:function(a,c){var d=a[c+1];a[c+1]=a[c+3];a[c+3]=d;this._doCryptBlock(a,c,this._invKeySchedule,b,x,q,n,s);d=a[c+1];a[c+1]=a[c+3];a[c+3]=d},_doCryptBlock:function(a,b,c,d,e,j,l,f){for(var m=this._nRounds,g=a[b]^c[0],h=a[b+1]^c[1],k=a[b+2]^c[2],n=a[b+3]^c[3],p=4,r=1;r<m;r++)var q=d[g>>>24]^e[h>>>16&255]^j[k>>>8&255]^l[n&255]^c[p++],s=d[h>>>24]^e[k>>>16&255]^j[n>>>8&255]^l[g&255]^c[p++],t=
+d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j[h>>>8&255]^l[k&255]^c[p++],g=q,h=s,k=t;q=(f[g>>>24]<<24|f[h>>>16&255]<<16|f[k>>>8&255]<<8|f[n&255])^c[p++];s=(f[h>>>24]<<24|f[k>>>16&255]<<16|f[n>>>8&255]<<8|f[g&255])^c[p++];t=(f[k>>>24]<<24|f[n>>>16&255]<<16|f[g>>>8&255]<<8|f[h&255])^c[p++];n=(f[n>>>24]<<24|f[g>>>16&255]<<16|f[h>>>8&255]<<8|f[k&255])^c[p++];a[b]=q;a[b+1]=s;a[b+2]=t;a[b+3]=n},keySize:8});u.AES=p._createHelper(d)})();
+
+module.exports = CryptoJS;
+
+/***/ }),
+
+/***/ 994:
 /***/ ((module) => {
 
 const e = {
@@ -2539,7 +2625,7 @@ module.exports.parseErrorMsg = function (type, data) {
 
 /***/ }),
 
-/***/ 885:
+/***/ 309:
 /***/ ((module) => {
 
 module.exports = console;
@@ -2547,7 +2633,7 @@ module.exports = console;
 
 /***/ }),
 
-/***/ 453:
+/***/ 105:
 /***/ ((module) => {
 
 const m = {
@@ -2861,7 +2947,7 @@ module.exports = map;
 
 /***/ }),
 
-/***/ 166:
+/***/ 792:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 exports.query2Obj = function (s = '', o = {}) {
@@ -2884,14 +2970,14 @@ exports.cookie2Str = function (n, v, o = {}) {
     return s;
 };
 
-exports._sha1 = __nccwpck_require__(494);
+exports._sha1 = __nccwpck_require__(579);
 
 exports.path = {
     basename: (s) => (s ? s.slice(s.lastIndexOf('/') + 1) : ''),
     extname: (s) => (s ? s.slice(s.lastIndexOf('.') + 1) : ''),
 };
 
-const request = (exports.request = __nccwpck_require__(896));
+const request = (exports.request = __nccwpck_require__(855));
 request.defaults.timeout = 5000;
 
 exports.exposeHeadersWhenProxy = function (k) {
@@ -2905,7 +2991,7 @@ exports.exposeHeadersWhenProxy = function (k) {
     return ['accept-ranges', 'date'].includes(k);
 };
 
-const mime = __nccwpck_require__(453);
+const mime = __nccwpck_require__(105);
 exports.mime = {
     get: (path) => mime[path.slice(path.lastIndexOf('.') + 1)] || 'application/vnd.op-unknown',
 };
@@ -2941,7 +3027,7 @@ exports.NumberUtil = {
     },
 };
 
-const { parseErrorMsg } = __nccwpck_require__(249);
+const { parseErrorMsg } = __nccwpck_require__(994);
 
 class RTError extends Error {
     constructor(status, type, data) {
@@ -2955,7 +3041,7 @@ class RTError extends Error {
 
 exports.RTError = RTError;
 
-const logger = __nccwpck_require__(885);
+const logger = __nccwpck_require__(309);
 
 class IDHelper {
     constructor(root) {
@@ -3052,7 +3138,7 @@ exports.deleteAttributes = function (obj, arr) {
 
 /***/ }),
 
-/***/ 979:
+/***/ 678:
 /***/ ((module) => {
 
 const SimpleRouter = function () {
@@ -3116,7 +3202,7 @@ module.exports = SimpleRouter;
 
 /***/ }),
 
-/***/ 191:
+/***/ 220:
 /***/ ((module) => {
 
 function request({ method, url, headers, body }, config) {
@@ -3220,7 +3306,7 @@ module.exports = request;
 
 /***/ }),
 
-/***/ 896:
+/***/ 855:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 /**
@@ -3241,8 +3327,8 @@ function setIfUndefined(o, a, v) {
 }
 
 const adapters = {};
-adapters.n = __nccwpck_require__(541);
-adapters.f = __nccwpck_require__(191);
+adapters.n = __nccwpck_require__(468);
+adapters.f = __nccwpck_require__(220);
 
 function getDefaultAdapter() {
     return adapters[typeof fetch === 'function' ? 'f' : 'n'];
@@ -3373,7 +3459,7 @@ module.exports.default = request;
 
 /***/ }),
 
-/***/ 541:
+/***/ 468:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const http = __nccwpck_require__(605);
@@ -3487,7 +3573,7 @@ module.exports = request;
 
 /***/ }),
 
-/***/ 494:
+/***/ 579:
 /***/ ((module) => {
 
 // https://github.com/jbt/tiny-hashes/blob/master/sha1/sha1.js
@@ -3558,10 +3644,10 @@ module.exports = sha1;
 
 /***/ }),
 
-/***/ 894:
+/***/ 545:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const op = __nccwpck_require__(525);
+const op = __nccwpck_require__(146);
 
 class V {
     constructor(ctx) {
@@ -3717,7 +3803,7 @@ module.exports = V;
 
 /***/ }),
 
-/***/ 467:
+/***/ 950:
 /***/ ((module) => {
 
 "use strict";
@@ -3823,10 +3909,10 @@ module.exports = runtime;
 
 /***/ }),
 
-/***/ 533:
+/***/ 136:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const $imports = __nccwpck_require__(467);module.exports={name:"simple.art"};module.exports.render=function($data){
+const $imports = __nccwpck_require__(950);module.exports={name:"simple.art"};module.exports.render=function($data){
 'use strict'
 $data=$data||{}
 var $$out='',$escape=$imports.$escape,$V=$data.$V,navs=$data.navs,$each=$imports.$each,$value=$data.$value,$index=$data.$index,response=$data.response
@@ -3880,10 +3966,10 @@ return $$out
 
 /***/ }),
 
-/***/ 529:
+/***/ 255:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const $imports = __nccwpck_require__(467);module.exports={name:"w.w.art"};module.exports.render=function($data){
+const $imports = __nccwpck_require__(950);module.exports={name:"w.w.art"};module.exports.render=function($data){
 'use strict'
 $data=$data||{}
 var $$out='',$escape=$imports.$escape,$V=$data.$V,navs=$data.navs,$each=$imports.$each,$value=$data.$value,$index=$data.$index,response=$data.response,type=$data.type,url=$data.url,oUrl=$data.oUrl
@@ -3891,7 +3977,7 @@ $$out+="<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"utf-8\"><meta 
 $$out+=$escape($V.site.logo)
 $$out+="\"><meta name=\"referrer\" content=\"same-origin\"><link href=\"//cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css\" rel=\"stylesheet\"><link href=\"//cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css\" rel=\"stylesheet\"><title>"
 $$out+=$escape($V.site.name)
-$$out+="</title><style>a:hover{color:red;text-decoration:none}@media (max-width:768px){#op-list tr>td:nth-child(3),#op-list tr>th:nth-child(3){display:none}}@media (max-width:992px){#op-list tr>td:nth-child(2),#op-list tr>th:nth-child(2){display:none}}</style></head><body><nav class=\"navbar sticky-top navbar-dark bg-dark navbar-expand-lg\"><div class=\"container\"><a href=\"#\" class=\"navbar-brand\"><img src=\""
+$$out+="</title><style>a:hover{color:red;text-decoration:none}@media (max-width:768px){#op-list tr>td:nth-child(3),#op-list tr>th:nth-child(3){display:none}}@media (max-width:992px){#op-list tr>td:nth-child(2),#op-list tr>th:nth-child(2){display:none}}.artplayer-app{width:100%;height:45vw}</style></head><body><nav class=\"navbar sticky-top navbar-dark bg-dark navbar-expand-lg\"><div class=\"container\"><a href=\"#\" class=\"navbar-brand\"><img src=\""
 $$out+=$escape($V.site.logo)
 $$out+="\" alt=\"logo\" class=\"d-inline-block align-top\" style=\"width:32px\"> "
 $$out+=$escape($V.site.name)
@@ -3935,7 +4021,7 @@ $$out+=" <tr><td><a href=\""
 $$out+=$escape($V.nextHref)
 $$out+="\">👇Next...</a></td><td></td><td></td></tr> "
 }
-$$out+=" </tbody></table><script>function formatSize(t){if(\"\"===t||\"NaN\"===t)return\"\";t=Number(t);let e=0;for(;t>=1024;)t/=1024,e++;return t.toFixed(2)+[\" B\",\" KB\",\" MB\",\" GB\",\" TB\"][e]}function formatDate(t){let e=new Date(t);return\"Invalid Date\"===e.toString()?\"\":e.getFullYear()+\"-\"+(e.getMonth()<9?\"0\"+(e.getMonth()+1):e.getMonth()+1)+\"-\"+(e.getDate()<10?\"0\"+e.getDate():e.getDate())+\" \"+(e.getHours()<10?\"0\"+e.getHours():e.getHours())+\":\"+(e.getMinutes()<10?\"0\"+e.getMinutes():e.getMinutes())+\":\"+(e.getSeconds()<10?\"0\"+e.getSeconds():e.getSeconds())}document.querySelectorAll(\"#op-list\").forEach(t=>{t.querySelectorAll(\"tr>td:nth-child(2)\").forEach(t=>t.textContent=formatDate(t.textContent)),t.querySelectorAll(\"tr>td:nth-child(3)\").forEach(t=>t.textContent=formatSize(t.textContent))})</script> "
+$$out+=" </tbody></table><script>function formatSize(size) {\r\n                if (size === \"\" || size === \"NaN\") {\r\n                    return \"\";\r\n                }\r\n                size = Number(size);\r\n                let count = 0;\r\n                while (size >= 1024) {\r\n                    //faster than 1000\r\n                    size /= 1024;\r\n                    count++;\r\n                }\r\n                return size.toFixed(2) + [' B', ' KB', ' MB', ' GB', ' TB'][count];\r\n            }\r\n\r\n            function formatDate(str) {\r\n                let oDate = new Date(str);\r\n                if ('Invalid Date' === oDate.toString()) {\r\n                    return \"\";\r\n                }\r\n                let oYear = oDate.getFullYear(),\r\n                    oMonth = oDate.getMonth() < 9 ? \"0\" + (oDate.getMonth() + 1) : (oDate.getMonth() + 1),\r\n                    oDay = oDate.getDate() < 10 ? \"0\" + oDate.getDate() : oDate.getDate(),\r\n                    oHour = oDate.getHours() < 10 ? \"0\" + oDate.getHours() : oDate.getHours(),\r\n                    oMinute = oDate.getMinutes() < 10 ? \"0\" + oDate.getMinutes() : oDate.getMinutes(),\r\n                    oSecond = oDate.getSeconds() < 10 ? \"0\" + oDate.getSeconds() : oDate.getSeconds();\r\n                return oYear + '-' + oMonth + '-' + oDay + \" \" + oHour + \":\" + oMinute + \":\" + oSecond;\r\n            }\r\n\r\n            document.querySelectorAll('#op-list').forEach(e => {\r\n                e.querySelectorAll('tr>td:nth-child(2)').forEach(e => e.textContent = formatDate(e.textContent));\r\n                e.querySelectorAll('tr>td:nth-child(3)').forEach(e => e.textContent = formatSize(e.textContent));\r\n            });</script> "
 if($V.isEmpty){
 $$out+=" <p style=\"text-align:center\" class=\"mt-2\">Empty Folder!</p> "
 }
@@ -3957,7 +4043,9 @@ $$out+="\" class=\"rounded mx-auto d-block img-fluid\" max-width=\"100%\" alt=\"
 }else if(type === 'video' || $V.file.name.endsWith('.m3u8')){
 $$out+=" <div id=\"op-preview-video\" data-url=\""
 $$out+=$escape(url)
-$$out+="\"></div><script src=\"//cdn.staticfile.org/hls.js/1.0.4/hls.min.js\"></script><script src=\"//cdn.staticfile.org/flv.js/1.5.0/flv.min.js\"></script><script src=\"//cdn.staticfile.org/dplayer/1.26.0/DPlayer.min.js\"></script><script>dpElement=document.getElementById(\"op-preview-video\"),window.dp=new DPlayer({element:dpElement,video:{url:dpElement.getAttribute(\"data-url\"),pic:\"\",type:\"auto\"}})</script> "
+$$out+="\" source-url=\""
+$$out+=$escape(oUrl)
+$$out+="\" class=\"artplayer-app\"></div><script src=\"//cdn.staticfile.org/hls.js/1.0.4/hls.min.js\"></script><script src=\"//cdn.staticfile.org/flv.js/1.5.0/flv.min.js\"></script><script src=\"//cdn.staticfile.org/dplayer/1.26.0/DPlayer.min.js\"></script><script src=\"//unpkg.com/artplayer/dist/artplayer.js\"></script><script src=\"//unpkg.com/artplayer-plugin-danmuku/dist/artplayer-plugin-danmuku.js\"></script><script>artElement = document.getElementById('op-preview-video');\r\n        // $(function() { \r\n            window.art = new Artplayer({\r\n            container: '.artplayer-app',\r\n            url: artElement.getAttribute('source-url'),\r\n            autoSize: true,\r\n            fullscreen: true,\r\n            fullscreenWeb: true,\r\n            flip: true,\r\n            playbackRate: true,\r\n            aspectRatio: true,\r\n            setting: true,\r\n            autoMini: true,\r\n            rotate: true,\r\n            hotkey: true,\r\n            pip: false,\r\n            whitelist: ['*'],\r\n            plugins: [\r\n                artplayerPluginDanmuku({\r\n                    danmuku: artElement.getAttribute('source-url').replace(\".flv.mp4\",\".xml\"),\r\n                    speed: 10,\r\n                    opacity: 0.75,\r\n                    fontSize: 25,\r\n                    color: '#FFFFFF',\r\n                    mode: 0,\r\n                    margin: [10, 10],\r\n                    antiOverlap: true,\r\n                    useWorker: true,\r\n                    synchronousPlayback: false,\r\n                    filter: (danmu) => danmu.text.length < 50,\r\n                    lockTime: 5,\r\n                    maxLength: 100,\r\n                    minWidth: 200,\r\n                    maxWidth: 400,\r\n                    theme: 'dark',\r\n                    beforeEmit: (danmu) => !!danmu.text.trim(), \r\n\r\n                }),\r\n            ],\r\n        });\r\n        // 监听准备完成\r\n        art.on('ready', () => {\r\n            console.info('加载完毕');\r\n            console.info(art.autoHeight);\r\n            art.autoHeight = true;\r\n            console.info(art.autoHeight);\r\n            // $(\"div.art-danmuku-emitter.art-danmuku-theme-dark\").remove();\r\n            $(\"div.art-controls-center\").remove();\r\n        });\r\n        // 监听加载到的弹幕数组\r\n        art.on('artplayerPluginDanmuku:loaded', (danmus) => {\r\n            console.info('加载弹幕', danmus.length);\r\n        });\r\n\r\n        // 监听加载到弹幕的错误\r\n        art.on('artplayerPluginDanmuku:error', (error) => {\r\n            console.info('加载错误', error);\r\n        });\r\n\r\n        // 监听弹幕配置变化\r\n        art.on('artplayerPluginDanmuku:config', (option) => {\r\n            console.info('配置变化', option);\r\n        });\r\n\r\n        // 监听弹幕停止\r\n        art.on('artplayerPluginDanmuku:stop', () => {\r\n            console.info('弹幕停止');\r\n        });\r\n\r\n        // 监听弹幕开始\r\n        art.on('artplayerPluginDanmuku:start', () => {\r\n            console.info('弹幕开始');\r\n        });\r\n\r\n        // 监听弹幕隐藏\r\n        art.on('artplayerPluginDanmuku:hide', () => {\r\n            console.info('弹幕隐藏');\r\n        });\r\n\r\n        // 监听弹幕显示\r\n        art.on('artplayerPluginDanmuku:show', () => {\r\n            console.info('弹幕显示');\r\n        });\r\n\r\n        // 监听弹幕销毁\r\n        art.on('artplayerPluginDanmuku:destroy', () => {\r\n            console.info('弹幕销毁');\r\n        });\r\n\r\n        // 防止出现401 token过期\r\n        art.on('error', function() {\r\n            console.log('获取资源错误，开始重新加载！');\r\n            let last = art.currentTime;\r\n            art.url = artElement.getAttribute('source-url');\r\n            art.load();\r\n            art.currentTime = last;\r\n            art.play();\r\n        });\r\n        // 如果是播放状态 & 没有播放完 每25分钟重载视频防止卡死\r\n        setInterval(function() {\r\n            if (!art.video.paused && !art.video.ended) {\r\n                console.log('开始重新加载！');\r\n                let last = art.currentTime;\r\n                art.url = artElement.getAttribute('source-url');\r\n                art.load();\r\n                art.currentTime = last;\r\n                art.play();\r\n            }\r\n        }, 1000 * 60 * 25)\r\n        // });</script> "
 }else if(type === 'audio'){
 $$out+=" <audio src=\""
 $$out+=$escape(url)
@@ -3975,7 +4063,7 @@ $$out+="\"></div><script src=\"//cdn.staticfile.org/pdfobject/2.2.4/pdfobject.mi
 }else if(type==='text'){
 $$out+=" <pre><code id=\"op-preview-text\" data-url=\""
 $$out+=$escape(url)
-$$out+="\">loading...</code></pre><link href=\"//cdn.staticfile.org/highlight.js/10.4.1/styles/xcode.min.css\" rel=\"stylesheet\"><script src=\"//cdn.staticfile.org/highlight.js/10.4.1/highlight.min.js\"></script><script>document.querySelectorAll(\"#op-preview-text\").forEach(t=>{fetch(t.getAttribute(\"data-url\")).then(t=>t.ok?t.text():Promise.reject(new Error(\"response error\"))).then(e=>{t.textContent=e,hljs.highlightBlock(t)}).catch(e=>t.textContent=\"Oh, \"+e)})</script> "
+$$out+="\">loading...</code></pre><link href=\"//cdn.staticfile.org/highlight.js/10.4.1/styles/xcode.min.css\" rel=\"stylesheet\"><script src=\"//cdn.staticfile.org/highlight.js/10.4.1/highlight.min.js\"></script><script>document.querySelectorAll('#op-preview-text').forEach(e => {\r\n                fetch(e.getAttribute('data-url')).then(response => response.ok ? response.text() : Promise.reject(new Error('response error'))).then(data => {\r\n                    e.textContent = data;\r\n                    hljs.highlightBlock(e);\r\n                }).catch(err => e.textContent = \"Oh, \" + err);\r\n            });</script> "
 }else if(type==='bigText'){
 $$out+=" <p style=\"text-align:center\" class=\"mb-0\">该文本文件太大, 不支持预览 :-(</p> "
 }else{
@@ -3983,7 +4071,7 @@ $$out+=" <p style=\"text-align:center\" class=\"mb-0\">此格式("
 $$out+=$escape($V.file.mime)
 $$out+=")不支持预览 :-(</p> "
 }
-$$out+=" </div><script src=\"https://cdn.staticfile.org/clipboard.js/2.0.8/clipboard.min.js\"></script><script>document.querySelectorAll(\"#op-share-url\").forEach(e=>{e.value=new URL(\"?\",window.location).href.slice(0,-1),new ClipboardJS(\"#op-share-btn\")})</script> "
+$$out+=" </div><script src=\"https://cdn.staticfile.org/clipboard.js/2.0.8/clipboard.min.js\"></script><script>document.querySelectorAll('#op-share-url').forEach(e => {\r\n            e.value = new URL('?', window.location).href.slice(0, -1);\r\n            new ClipboardJS('#op-share-btn');\r\n        });</script> "
 }else{
 $$out+=" "
 if($V.hasPassword){
@@ -4003,7 +4091,7 @@ $$out+="\">"
 $$out+=$escape($V.readme)
 $$out+="</div><script src=\"https://cdn.staticfile.org/marked/2.0.3/marked.min.js\"></script><script>document.getElementById(\"op-readme\").innerHTML=marked(document.getElementById(\"op-readme\").textContent)</script> "
 if($V.readmeUrl){
-$$out+=" <script>document.querySelectorAll(\"#op-readme\").forEach(e=>fetch(e.getAttribute(\"data-url\")).then(e=>e.ok?e.text():Promise.reject(new Error(\"response error\"))).then(r=>e.innerHTML=marked(r)).catch(r=>e.innerHTML=\"Oh, \"+r))</script> "
+$$out+=" <script>document.querySelectorAll('#op-readme').forEach(e => fetch(e.getAttribute('data-url')).then(response => response.ok ? response.text() : Promise.reject(new Error('response error'))).then(data => e.innerHTML = marked(data)).catch(err => e.innerHTML = \"Oh, \" + err));</script> "
 }
 $$out+=" </div><div class=\"text-right py-3 pl-3\"><a class=\"text-muted\" target=\"_blank\" href=\"https://github.com/ukuq/onepoint\">Just One Point.</a> <a class=\"text-muted ml-2\" href=\""
 $$out+=$escape($V.refreshHref)
@@ -4017,7 +4105,7 @@ return $$out
 
 /***/ }),
 
-/***/ 463:
+/***/ 155:
 /***/ ((module) => {
 
 module.exports = {
@@ -4110,8 +4198,8 @@ globalThis.module = {};
 globalThis.require = () => 0;
 globalThis.__dirname = '';
 
-const app = __nccwpck_require__(417);
-const { P, exposeHeadersWhenProxy, request: _request } = __nccwpck_require__(166);
+const app = __nccwpck_require__(667);
+const { P, exposeHeadersWhenProxy, request: _request } = __nccwpck_require__(792);
 
 //otherwise, Date.now() is 0
 function initApp() {

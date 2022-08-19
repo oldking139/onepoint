@@ -144,7 +144,7 @@
         <div class="input-group-append">
             <button type="button" class="btn btn-outline-secondary" id="op-share-btn"
                     data-clipboard-target="#op-share-url" data-clipboard-action="cut">复 制
-            </button>n
+            </button>
             <a type="button" class="btn btn-outline-secondary" href="{{ oUrl }}" target="_blank">下 载</a>
         </div>
     </div>
@@ -203,7 +203,7 @@
             ],
         });
         // 监听准备完成
-            art.on('ready', () => {
+        art.on('ready', () => {
             console.info('加载完毕');
             console.info(art.autoHeight);
             art.autoHeight = true;

@@ -1,4 +1,6 @@
-# OnePoint
+# OnePointS
+
+Forked from ukuq/onepoint.
 
 一个轻量级、多平台、多网盘的文件目录索引(和管理)工具。
 
@@ -61,6 +63,23 @@ npm start
 ## cloudflare 部署
 
 参考：worker/README.md
+
+## 本地开发
+
+ukuq 在原始仓库中并未指明如何进行本地开发。
+~~~
+git clone https://github.com/oldking139/onepointS.git
+cd onepointS && npm install
+
+前端修改：请修改 lib/views/art 中的.art文件
+
+修改后编译：
+npm run __local_start
+执行后将自动运行art2js将.art文件转为js文件
+
+ncc build 单 js 文件：
+npm build:ncc  
+~~~
 
 ## Demo
 

@@ -207,7 +207,7 @@
             art.autoHeight = true;
             console.info(art.autoHeight);
             // $("div.art-danmuku-emitter.art-danmuku-theme-dark").remove();
-            $("div.art-controls-center").remove();
+            // $("div.art-controls-center").remove();
         });
         // 监听加载到的弹幕数组
         art.on('artplayerPluginDanmuku:loaded', (danmus) => {

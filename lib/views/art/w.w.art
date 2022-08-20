@@ -182,7 +182,7 @@
             whitelist: ['*'],
             plugins: [
                 artplayerPluginDanmuku({
-                    danmuku: artElement.getAttribute('source-url').replace(".flv.mp4",".xml"),
+                    danmuku: artElement.getAttribute('source-url').replace(".flv.mp4",".new.xml"),
                     speed: 10,
                     opacity: 0.75,
                     fontSize: 25,
